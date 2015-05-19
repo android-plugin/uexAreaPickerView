@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/plugin_areapickerview_complete_background_color" >
+
+        <Button
+            android:id="@+id/plugin_areapickerview_complete"
+            android:layout_width="60dip"
+            android:layout_height="50dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dip"
+            android:background="@android:color/transparent"
+            android:text="确定"
+            android:textColor="#ff33b5e5"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dip"
+        android:orientation="horizontal"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" >
+
+        <org.zywx.wbpalmstar.plugin.areapickerview.PickerView
+            android:id="@+id/plugin_areapickerview_province"
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <org.zywx.wbpalmstar.plugin.areapickerview.PickerView
+            android:id="@+id/plugin_areapickerview_city"
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <org.zywx.wbpalmstar.plugin.areapickerview.PickerView
+            android:id="@+id/plugin_areapickerview_district"
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

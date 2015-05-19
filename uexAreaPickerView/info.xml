@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<uexplugins>
+    <plugin
+        uexName="uexAreaPickerView" version="3.0.2" build="2">
+        <info>2:修复第二次打开界面空指针问题</info>
+        <build>1:clean函数中调用close方法</build>
+        <build>0:AreaPickerView插件基础版</build>
+    </plugin>
+</uexplugins>
