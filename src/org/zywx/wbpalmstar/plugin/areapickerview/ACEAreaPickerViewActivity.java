@@ -46,8 +46,8 @@ public class ACEAreaPickerViewActivity extends Activity {
 				if (mUexBaseObj != null) {
 					JSONObject jsonObject = new JSONObject();
 					try {
-						String city = mProvinceView.getAreaInfoName()
-								+ mCityView.getAreaInfoName()
+						String city = mProvinceView.getAreaInfoName()+" "
+								+ mCityView.getAreaInfoName()+" "
 								+ mDistrictView.getAreaInfoName();
 						jsonObject
 								.put(EAreaPickerViewUtil.AREAPICKERVIEW_PARAMS_JSON_KEY_CITY,
