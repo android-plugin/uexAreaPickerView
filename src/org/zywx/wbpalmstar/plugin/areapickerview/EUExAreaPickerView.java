@@ -3,36 +3,28 @@ package org.zywx.wbpalmstar.plugin.areapickerview;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 
-import android.app.Activity;
-import android.app.ActivityGroup;
-import android.app.LocalActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-public class EUExAreaPickerView extends EUExBase implements Parcelable {
+public class EUExAreaPickerView extends EUExBase{
 
 	public static final String TAG = "EUExAreaPickerView";
 
 	public static final int AREAPICKERVIEW_MSG_OPEN = 0;
 	public static final int AREAPICKERVIEW_MSG_CLOSE = 1;
-	private static LocalActivityManager mgr;
+    private ACEAreaPickerView mView;
 
 	public EUExAreaPickerView(Context context, EBrowserView inParent) {
 		super(context, inParent);
-		mgr = ((ActivityGroup) mContext).getLocalActivityManager();
 	}
 
 	private void sendMessageWithType(int msgType, String[] params) {
@@ -59,31 +51,17 @@ public class EUExAreaPickerView extends EUExBase implements Parcelable {
 	}
 
 	private void handleMessageInAreaPickerView(Message msg) {
-		String activityId = EAreaPickerViewUtil.AREAPICKERVIEW_ACTIVITY_ID
-				+ EUExAreaPickerView.this.hashCode();
-		Activity activity = mgr.getActivity(activityId);
-
-		if (activity != null && activity instanceof ACEAreaPickerViewActivity) {
-			String[] params = msg.getData().getStringArray(
-					EAreaPickerViewUtil.AREAPICKERVIEW_FUN_PARAMS_KEY);
-			ACEAreaPickerViewActivity aActivity = ((ACEAreaPickerViewActivity) activity);
-
-			switch (msg.what) {
-			case AREAPICKERVIEW_MSG_CLOSE:
-				handleClose(aActivity, mgr);
-				break;
-			}
-		}
+        switch (msg.what) {
+            case AREAPICKERVIEW_MSG_CLOSE:
+                handleClose();
+                break;
+        }
 	}
 
-	private void handleClose(ACEAreaPickerViewActivity aActivity,
-			LocalActivityManager mgr) {
-		Log.i(TAG, " handleClose");
-		View decorView = aActivity.getWindow().getDecorView();
-		mBrwView.removeViewFromCurrentWindow(decorView);
-		String activityId = EAreaPickerViewUtil.AREAPICKERVIEW_ACTIVITY_ID
-				+ EUExAreaPickerView.this.hashCode();
-		mgr.destroyActivity(activityId, true);
+	private void handleClose() {
+        if (mView == null) return;
+		mBrwView.removeViewFromCurrentWindow(mView);
+        mView = null;
 	}
 
 	private void handleOpen(Message msg) {
@@ -91,23 +69,14 @@ public class EUExAreaPickerView extends EUExBase implements Parcelable {
 		String[] params = msg.getData().getStringArray(
 				EAreaPickerViewUtil.AREAPICKERVIEW_FUN_PARAMS_KEY);
 		try {
-			String activityId = EAreaPickerViewUtil.AREAPICKERVIEW_ACTIVITY_ID
-					+ EUExAreaPickerView.this.hashCode();
-			ACEAreaPickerViewActivity aActivity = (ACEAreaPickerViewActivity) mgr
-					.getActivity(activityId);
-			if (aActivity != null) {
+			if (mView != null) {
 				return;
 			}
-			Intent intent = new Intent(mContext,
-					ACEAreaPickerViewActivity.class);
-			intent.putExtra(
-					EAreaPickerViewUtil.AREAPICKERVIEW_EXTRA_UEXBASE_OBJ, this);
-			Window window = mgr.startActivity(activityId, intent);
-			final View decorView = window.getDecorView();
+			mView = new ACEAreaPickerView(mContext, this);
 			DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
 			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
 					dm.widthPixels, RelativeLayout.LayoutParams.WRAP_CONTENT);
-			addView2CurrentWindow(decorView, lp);
+			addView2CurrentWindow(mView, lp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -154,14 +123,5 @@ public class EUExAreaPickerView extends EUExBase implements Parcelable {
 	protected boolean clean() {
 		close(null);
 		return false;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
 	}
 }

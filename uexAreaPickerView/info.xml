@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexAreaPickerView" version="3.0.3" build="3">
-        <info>3:返回数据添加空格便于分割</info>
+        uexName="uexAreaPickerView" version="3.0.4" build="4">
+        <info>4:去掉插件中的ActivityGroup,配合引擎升级</info>
+        <build>3:返回数据添加空格便于分割</build>
         <build>2:修复第二次打开界面空指针问题</build>
         <build>1:clean函数中调用close方法</build>
         <build>0:AreaPickerView插件基础版</build>
